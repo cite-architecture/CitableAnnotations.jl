@@ -1,4 +1,5 @@
 using CitableAnnotations
+using CitableBase
 using CitableText, CitableObject
 using Test
 
