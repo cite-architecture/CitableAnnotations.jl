@@ -83,3 +83,69 @@ Required function for `Citable` abstraction.
 function label(comm::CitableCommentary)
     comm.label
 end
+
+
+"Singleton type for value of `CexTrait`"
+struct CommentaryCex <: CexTrait end
+"""Set value of `CexTrait` for `CitableCommentary`
+$(SIGNATURES)
+"""
+function cextrait(::Type{CitableCommentary})
+    CommentaryCex()
+end
+
+
+
+"""Format a `CitableCommentary` as a delimited-text string.
+$(SIGNATURES)
+Required function for `Citable` abstraction.
+"""
+function cex(comm::CitableCommentary; delimiter = "|")
+    lines = ["#!citerelationset",
+        "urn$(delimiter)$(urn(comm))",
+        "label$(delimiter)$(label(comm))",
+        "",
+        "annotator$(delimiter)annotated"
+    ]
+    for pr in comm.commentary
+        push!(lines, string(pr[1]) * delimiter * string(pr[2]))
+    end
+    join(lines, "\n")
+end
+
+
+
+
+"""Parse a delimited-text string into a `CitableCommentary`.
+$(SIGNATURES)
+
+`cexsrc` should be a single `citerelationset` block.
+"""
+function fromcex(trait::CommentaryCex, cexsrc::AbstractString, ::Type{CitableCommentary}; 
+    delimiter = "|", configuration = nothing, strict = true)
+    (coll_urn, coll_label) = headerinfo(cexsrc, delimiter = delimiter)
+
+    datapairs = []
+    datalines = data(cexsrc, "citerelationset", delimiter = delimiter)
+    for ln in datalines
+        columns = split(ln, delimiter)
+        push!(datapairs, (CtsUrn(columns[1]), CtsUrn(columns[2]))) 
+    end
+    CitableCommentary(coll_urn, coll_label, datapairs)
+end
+
+#=
+
+"Singleton type for value of `UrnComparisonTrait`"
+struct AnnotationComparable <: UrnComparisonTrait end
+
+
+
+"""Set value of `UrnComparisonTrait` for `CitableCommentary`
+$(SIGNATURES)
+"""
+function urncomparisontrait(::Type{CitableCommentary})
+    AnnotationComparable()
+end
+
+=#

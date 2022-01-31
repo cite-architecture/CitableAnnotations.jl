@@ -5,6 +5,7 @@ using Test
 import Base: show
 import Base: ==
 
+using CiteEXchange
 using CitableObject
 using CitableText
 
@@ -33,4 +34,5 @@ export CitableCommentary
 
 include("abstract.jl")
 include("commentary.jl")
+include("utils.jl")
 end # module

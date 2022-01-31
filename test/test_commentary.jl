@@ -20,3 +20,14 @@ end
     @test urntype(commentary) == Cite2Urn
     
 end
+
+@testset "Test CEX trait on commentary" begin
+    cexsrc = """#!citerelationset
+urn|urn:cite2:annotations:testdata.v1:test1
+label|Minimal test example
+
+annotator|annotated
+urn:cts:greekLit:tlg5026.msAint.hmt:1.27|urn:cts:greekLit:tlg0012.tlg001.msA:1.8
+urn:cts:greekLit:tlg5026.msAint.hmt:1.28|urn:cts:greekLit:tlg0012.tlg001.msA:1.13-1.16
+"""
+end
