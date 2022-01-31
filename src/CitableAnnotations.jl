@@ -26,6 +26,8 @@ export AbstractAnnotationSet
 export annotatedtype, annotatingtype 
 export annotated, annotators
 
+export CitableCommentary
+
 include("abstract.jl")
 include("commentary.jl")
 end # module
