@@ -2,6 +2,9 @@ module CitableAnnotations
 using Documenter, DocStringExtensions
 using Test
 
+import Base: show
+import Base: ==
+
 using CitableObject
 using CitableText
 

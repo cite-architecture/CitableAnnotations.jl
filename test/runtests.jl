@@ -1,5 +1,5 @@
 using CitableAnnotations
-using CitableText
+using CitableText, CitableObject
 using Test
 
 include("test_abstract.jl")
