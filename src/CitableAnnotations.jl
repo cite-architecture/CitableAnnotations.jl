@@ -24,12 +24,6 @@ import CitableBase: urntype
 import CitableBase: urn
 import CitableBase: label
 
-#=
-urncomparisontrait
-urnequals
-urncontains
-urnsimilar
-=#
 
 import CitableBase: cextrait
 import CitableBase: cex
@@ -40,8 +34,10 @@ export annotatedtype, annotatingtype
 export annotated, annotators
 
 export CitableCommentary
+export TextOnPage
 
 include("abstract.jl")
 include("commentary.jl")
+include("textonpage.jl")
 include("utils.jl")
 end # module

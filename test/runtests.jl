@@ -5,3 +5,4 @@ using Test
 
 include("test_abstract.jl")
 include("test_commentary.jl")
+include("test_textonpage.jl")
