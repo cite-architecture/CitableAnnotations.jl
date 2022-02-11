@@ -17,6 +17,7 @@ makedocs(
     sitename = "CitableAnnotations.jl",
     pages = [
         "Home" => "index.md",
+        "Commentary" => "commentary.md",
         "API documentation" => "apis.md"
     ]
     )

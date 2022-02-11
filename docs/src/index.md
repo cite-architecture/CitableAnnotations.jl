@@ -8,3 +8,11 @@ Subtypes of `CitableAnnotationSet` should:
 - implement the `CitableTrait` (from `CitableBase`)
 - implement the `CexTrait`  (from `CitableBase`)
 - implement Julia's iterators and tables traits on the set of annotations
+
+
+## Concrete subtypes
+
+```@contents
+Pages = ["commentary.md"]
+Depth = 5
+```

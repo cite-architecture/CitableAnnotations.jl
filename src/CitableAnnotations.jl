@@ -5,6 +5,15 @@ using Test
 import Base: show
 import Base: ==
 
+
+using Base.Iterators
+import Base: length
+import Base: eltype
+import Base: iterate
+import Base: filter
+import Base: reverse
+
+
 using CiteEXchange
 using CitableObject
 using CitableText

@@ -2,8 +2,8 @@
     u = Cite2Urn("urn:cite2:annotations:testdata.v1:test1")
     commentary = CitableCommentary(u, "Empty test set", [])
     
-    #@test annotated(commentary) == CtsUrn
-    #@test annotators(commentary) == CtsUrn
+    #@test annotated(commentary) == Set(CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:"))
+    #@test annotators(commentary) == Set(CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:"))
     @test annotatedtype(commentary) == CtsUrn
     @test annotatingtype(commentary) == CtsUrn
 end
@@ -21,13 +21,14 @@ end
     
 end
 
-@testset "Test CEX trait on commentary" begin
-    cexsrc = """#!citerelationset
-urn|urn:cite2:annotations:testdata.v1:test1
-label|Minimal test example
+@testset "Test Julia collection functions on commentary" begin
+    f = joinpath(pwd(), "data", "sample-commentary.cex") 
+    c = fromcex(f, CitableCommentary, FileReader)
+    @test length(c) == 9
+    @test eltype(c) == Tuple{CtsUrn, CtsUrn}
+    @test typeof(collect(c))  <: Vector
+    @test filter(pr -> CitableText.isrange(pr[2]), c) |> collect |> length == 4
+    @test reverse(c)[1][1] == CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:1.57")
+   
 
-annotator|annotated
-urn:cts:greekLit:tlg5026.msAint.hmt:1.27|urn:cts:greekLit:tlg0012.tlg001.msA:1.8
-urn:cts:greekLit:tlg5026.msAint.hmt:1.28|urn:cts:greekLit:tlg0012.tlg001.msA:1.13-1.16
-"""
 end
