@@ -1,14 +1,23 @@
 # CitableAnnotations
 
-The abstraction `CitableAnnotationSet` is a citable set of relations among a pair of URNs.  In each pair, one URN is said to *annotate* the other.
+The `CitableAnnotationSet` is an abstraction for a citable set of relations among pairs of URNs.  In each pair, one URN is said to *annotate* the other.
 
-Subtypes of `CitableAnnotationSet` should:
+Concrete subtypes of `CitableAnnotationSet` implement:
 
-- implement its required functions
-- implement the `CitableTrait` (from `CitableBase`)
-- implement the `CexTrait`  (from `CitableBase`)
-- implement Julia's iterators and tables traits on the set of annotations
+- metadata functions 
+- the `CitableTrait` functions (from `CitableBase`)
+- the `CexTrait` functions  (from `CitableBase`)
+- dozens of Julia's iterator and collection functions (see a partial list in the [documentation for `CitableBase`](https://cite-architecture.github.io/CitableBase.jl/stable/collections2/))
 
+
+## Metadata functions
+
+- `annotatingtype`: the type of URN used to identify annotating content
+- `annotatedtype`: the type of URN used to identify the annotated content
+- `annotators`:  a set of URNs identifying annotating objects 
+- `annotated`: the type of URN identifying the annotating content
+
+For example, the `CitableCommentary` models one text commenting on another. Both its `annotatingtype` and `annotatedtype` are therefore `CtsUrn`s.  Both its `annotators` and its `annotated` objects are sets of texts identified by CTS URNs (without individual passage references).
 
 ## Concrete subtypes
 
