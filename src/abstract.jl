@@ -18,8 +18,6 @@ function annotators(anns::T) where {T <: AbstractAnnotationSet}
 end
 
 
-
-
 """Find Julia type of annotating source.
 $(SIGNATURES)
 """
