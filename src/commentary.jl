@@ -1,4 +1,4 @@
-"Annotatoions by one text on another text."
+"Annotations by one text on another text."
 struct CitableCommentary <: AbstractAnnotationSet
     urn::Cite2Urn
     label::AbstractString
@@ -20,28 +20,30 @@ function ==(comm1::CitableCommentary, comm2::CitableCommentary)
     comm1.urn.urn == comm2.urn.urn && comm1.label == comm2.label && comm1.data == comm2.data
 end
 
-"""Find unique set of annotated objects.
+"""Find unique set of texts commented on.
 $(SIGNATURES)
+URNs identify versions or exemplars of texts without passage references.
 """
 function annotated(comm::CitableCommentary)
     map(t -> droppassage(t[2]), comm.commentary) |> Set
 end
 
-"""Find unique set of annotating sources.
+"""Find unique set of texts commenting on other texts.
 $(SIGNATURES)
+URNs identify versions or exemplars of texts without passage references.
 """
 function annotators(comm::CitableCommentary)
     map(t -> droppassage(t[1]), comm.commentary) |> Set
 end
 
-"""Find Julia type of annotating source.
+"""In a `CitableCommentary`, commenting texts are identifed by `CtsUrn`.
 $(SIGNATURES)
 """
 function annotatingtype(comm::CitableCommentary)
     CtsUrn
 end
 
-"""Find Julia type of annotated objects.
+"""In a `CitableCommentary`, texts commented on are identifed by `CtsUrn`.
 $(SIGNATURES)
 """
 function annotatedtype(comm::CitableCommentary)

@@ -1,9 +1,7 @@
 @testset "Test basic functions on commentary" begin
     u = Cite2Urn("urn:cite2:annotations:testdata.v1:test1")
     commentary = CitableCommentary(u, "Empty test set", [])
-    
-    #@test annotated(commentary) == Set(CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:"))
-    #@test annotators(commentary) == Set(CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:"))
+
     @test annotatedtype(commentary) == CtsUrn
     @test annotatingtype(commentary) == CtsUrn
 end
