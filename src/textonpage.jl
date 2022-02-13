@@ -102,16 +102,22 @@ $(SIGNATURES)
 Required function for `Citable` abstraction.
 """
 function cex(idx::TextOnPage; delimiter = "|")
+    dmlines = [
+        "#!datamodels",
+    "Collection$(delimiter)Model$(delimiter)Label$(delimiter)Description",
+    "$(urn(idx))$(delimiter)$(string(TEXT_ON_PAGE_MODEL))$(delimiter)$(idx.label)"
+    ]
+
     lines = ["#!citerelationset",
-        "urn$(delimiter)$(urn(comm))",
-        "label$(delimiter)$(label(comm))",
+        "urn$(delimiter)$(urn(idx))",
+        "label$(delimiter)$(label(idx))",
         "",
         "annotator$(delimiter)annotated"
     ]
     for pr in idx.data
         push!(lines, string(pr[1]) * delimiter * string(pr[2]))
     end
-    join(lines, "\n")
+    join(dmlines, "\n") * "\n\n" * join(lines, "\n")
 end
 
 
@@ -124,15 +130,76 @@ $(SIGNATURES)
 """
 function fromcex(trait::TextOnPageCex, cexsrc::AbstractString, ::Type{TextOnPage}; 
     delimiter = "|", configuration = nothing, strict = true)
-    (coll_urn, coll_label) = headerinfo(cexsrc, delimiter = delimiter)
+    if strict
+        @warn("Parse CEX for TextOnPage strictly")
+        parsetextonpagecex(cexsrc, delimiter = delimiter)
+    else
+        (coll_urn, coll_label) = headerinfo(cexsrc, delimiter = delimiter)
+        [readtextpageblock(cexsrc, coll_urn, coll_label, delimiter = delimiter)]
+    end
+end
 
+
+"""Create instances of `TextOnPage` relation from `cexsrc` by consulting the
+`datamodels` blocks of the CEX data and filtering content 
+of `citedata` blocks for matching collections.
+$(SIGNATURES)
+"""
+function parsetextonpagecex(cexsrc::AbstractString; delimiter = "|")
+    dms = data(cexsrc, "datamodels")
+    @debug("DMs in CEX", length(dms))
+    relationseturns = Cite2Urn[]
+    for dm in dms
+        @debug("data model", dm)
+        cols = split(dm, delimiter)
+        if Cite2Urn(cols[2]) == TEXT_ON_PAGE_MODEL
+            push!(relationseturns, Cite2Urn(cols[1]))
+        end
+    end
+    @debug("Relation set urns", relationseturns)
+    datablocks = blocks(cexsrc, "citerelationset")
+    relationsets = TextOnPage[]
+    for db in datablocks
+        @debug("Relatoin urn",relationurn(db))
+        try
+            refurn = Cite2Urn(relationurn(db))
+            @debug("check refurn/relationseturns", refurn, relationseturns)
+            @debug("IN list?", refurn in relationseturns)
+            if refurn in relationseturns
+                @debug("Woot! save block with URN ", refurn)
+                (coll_urn, coll_label) = headerinfo(cexsrc, delimiter = delimiter)
+                textonpage = readtextpageblock(db,coll_urn,coll_label, delimiter = delimiter)
+                @debug("Parsing yielded", textonpage)
+                @debug(relationsets, textonpage)
+            else
+                @debug("$(refurn) not in $(relationseturns)")
+            end
+            
+        catch e
+            @debug(e)
+            # Collection not in configured list
+        end
+    end
+    @debug("finished parsing with", relationsets)
+    relationsets
+end
+
+
+function readtextpageblock(cexsrc::AbstractString, curn::Cite2Urn, clabel::AbstractString; delimiter = "|")
+    readtextpageblock(blocks(cexsrc, "citerelationset")[1], curn, clabel, delimiter = delimiter)
+end
+
+
+"""Parse a single `citedata` block into a =`TextOnPage` relation set.
+$(SIGNATURES)
+"""
+function readtextpageblock(b::Block, curn::Cite2Urn, clabel::AbstractString; delimiter = "|")
     datapairs = []
-    datalines = data(cexsrc, "citerelationset", delimiter = delimiter)
-    for ln in datalines
+    for ln in b.lines[4:end]
         columns = split(ln, delimiter)
         push!(datapairs, (CtsUrn(columns[1]), Cite2Urn(columns[2]))) 
     end
-    TextOnPage(coll_urn, coll_label, datapairs)
+    TextOnPage(curn, clabel, datapairs)
 end
 
 
@@ -180,4 +247,27 @@ $(SIGNATURES)
 """
 function reverse(idx::TextOnPage)
     reverse(idx.data)
+end
+
+
+
+
+###
+
+function relationurn(relationblock::Block; delimiter = "|")
+    cols = split(relationblock.lines[1], delimiter)
+    cols[2]
+end
+
+"""Map column labels to column numbers
+$(SIGNATURES)
+"""
+function columndict(b::Block; delimiter = "|")
+    hdr = b.lines[1]
+    cols = split(hdr, delimiter)
+    orderdict = Dict()
+    for i in 1:length(cols)
+        orderdict[lowercase(cols[i])] = i
+    end
+    orderdict
 end

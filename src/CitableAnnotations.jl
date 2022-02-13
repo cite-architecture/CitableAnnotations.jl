@@ -36,6 +36,7 @@ export annotated, annotators
 export CitableCommentary
 export TextOnPage
 
+include("constants.jl")
 include("abstract.jl")
 include("commentary.jl")
 include("textonpage.jl")
