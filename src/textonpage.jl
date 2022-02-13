@@ -147,37 +147,40 @@ $(SIGNATURES)
 """
 function parsetextonpagecex(cexsrc::AbstractString; delimiter = "|")
     dms = data(cexsrc, "datamodels")
-    @warn("DMs in CEX", length(dms))
+    @debug("DMs in CEX", length(dms))
     relationseturns = Cite2Urn[]
     for dm in dms
-        @warn("data model", dm)
+        @debug("data model", dm)
         cols = split(dm, delimiter)
         if Cite2Urn(cols[2]) == TEXT_ON_PAGE_MODEL
             push!(relationseturns, Cite2Urn(cols[1]))
         end
     end
-    @warn("Relation set urns", relationseturns)
+    @debug("Relation set urns", relationseturns)
     datablocks = blocks(cexsrc, "citerelationset")
     relationsets = TextOnPage[]
     for db in datablocks
-        @warn("Relatoin urn",relationurn(db))
+        @debug("Relatoin urn",relationurn(db))
         try
             refurn = Cite2Urn(relationurn(db))
-            @warn("check refurn/relationseturns", refurn, relationseturns)
+            @debug("check refurn/relationseturns", refurn, relationseturns)
+            @debug("IN list?", refurn in relationseturns)
             if refurn in relationseturns
                 @debug("Woot! save block with URN ", refurn)
-                textonpage = readtextpageblock(db)
+                (coll_urn, coll_label) = headerinfo(cexsrc, delimiter = delimiter)
+                textonpage = readtextpageblock(db,coll_urn,coll_label, delimiter = delimiter)
                 @debug("Parsing yielded", textonpage)
-                push!(relationsets, textonpage)
+                @debug(relationsets, textonpage)
             else
-                @warn("$(refurn) not in $(relationseturns)")
+                @debug("$(refurn) not in $(relationseturns)")
             end
             
         catch e
-            @warn(e)
+            @debug(e)
             # Collection not in configured list
         end
     end
+    @debug("finished parsing with", relationsets)
     relationsets
 end
 
