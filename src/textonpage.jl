@@ -164,12 +164,14 @@ function parsetextonpagecex(cexsrc::AbstractString; delimiter = "|")
         try
             refurn = Cite2Urn(relationurn(db))
             @debug("check refurn/relationseturns", refurn, relationseturns)
-            @debug("IN list?", refurn in relationseturns)
+            checkme = refurn in relationseturns
+            @debug("$(refurn) in list?", checkme)
             if refurn in relationseturns
                 @debug("Woot! save block with URN ", refurn)
                 (coll_urn, coll_label) = headerinfo(cexsrc, delimiter = delimiter)
                 textonpage = readtextpageblock(db,coll_urn,coll_label, delimiter = delimiter)
                 @debug("Parsing yielded", textonpage)
+                push!(relationsets, textonpage)
                 @debug(relationsets, textonpage)
             else
                 @debug("$(refurn) not in $(relationseturns)")
