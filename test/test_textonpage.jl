@@ -1,6 +1,7 @@
 @testset "Test basic functions on text on page" begin
     f = joinpath(pwd(), "data", "sample-texttopage.cex")
-    idx = fromcex(f, TextOnPage, FileReader)
+    indexes = fromcex(f, TextOnPage, FileReader)
+    idx = indexes[1]
    
 
     
@@ -13,7 +14,8 @@ end
 
 @testset "Test citable trait on commentary" begin
     f = joinpath(pwd(), "data", "sample-texttopage.cex")
-    idx = fromcex(f, TextOnPage, FileReader)
+    indexes = fromcex(f, TextOnPage, FileReader)
+    idx = indexes[1]
    
     @test citabletrait(typeof(idx)) == CitableAnnotations.TextOnPageCitation()
     @test citable(idx)
@@ -25,7 +27,8 @@ end
 
 @testset "Test Julia collection functions on commentary" begin
     f = joinpath(pwd(), "data", "sample-texttopage.cex")
-    idx = fromcex(f, TextOnPage, FileReader)
+    indexes = fromcex(f, TextOnPage, FileReader)
+    idx = indexes[1]
    
 
     @test length(idx) == 10
