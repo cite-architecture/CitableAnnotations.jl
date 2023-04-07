@@ -125,21 +125,72 @@ end
 
 """Parse a delimited-text string into `TextOnPage` annotations.
 $(SIGNATURES)
-
-`cexsrc` should be a single `citerelationset` block.
 """
 function fromcex(trait::TextOnPageCex, cexsrc::AbstractString, ::Type{TextOnPage}; 
-    delimiter = "|", configuration = nothing, strict = true)
-    if strict
+    delimiter = "|" , configuration = nothing, strict = true)
+    #=if strict
         @warn("Parsing CEX for TextOnPage strictly")
         parsetextonpagecex(cexsrc, delimiter = delimiter)
     else
         (coll_urn, coll_label) = headerinfo(cexsrc, delimiter = delimiter)
         [readtextpageblock(cexsrc, coll_urn, coll_label, delimiter = delimiter)]
     end
+    =#
+
+
+    indexsets = []
+    modelblocks = blocks(cexsrc, "datamodels")
+    for mb in modelblocks
+        for ln in mb.lines[2:end]
+            cols = split(ln, delimiter)
+            collurn =  Cite2Urn(cols[1])
+            modelurn = Cite2Urn(cols[2])
+            
+            if modelurn == TEXT_ON_PAGE_MODEL
+                push!(indexsets,collurn)
+            else
+                @info("$(modelurn) != $(TEXT_ON_PAGE_MODEL)")
+            end
+        end
+    end
+
+    crblocks = blocks(cexsrc, "citerelationset")
+    @info("Look for $(indexsets) in CR BLOCKS $(crblocks)")
+    idxblocks = []
+    crurns = map(crblocks) do blk
+        split(blk.lines[1], delimiter)[2] |> Cite2Urn
+    end
+    #@info("CR URNS $(crurns)")
+    for idxurn in indexsets
+        #@info("LOOK AT $(idxurn)")
+        blockindices = findall(u -> u == idxurn, crurns)
+        for idx in blockindices
+            push!(idxblocks, crblocks[idx])
+        end
+    end
+      
+    #@info("idxblocks", idxblocks)
+    indices = []
+    for blk in idxblocks
+        datapairs = []
+        (coll_urn, coll_label) = headerinfo(blk, delimiter = delimiter)
+        for ln in blk.lines
+            columns = split(ln, delimiter)
+            try
+                push!(datapairs, (CtsUrn(columns[1]), Cite2Urn(columns[2]))) 
+            catch 
+                @warn("Skipping line $(ln)")
+            end
+        end
+
+        push!(indices, TextOnPage(coll_urn, coll_label, datapairs))
+    end
+    indices
 end
 
 
+
+#=
 """Create instances of `TextOnPage` relation from `cexsrc` by consulting the
 `datamodels` blocks of the CEX data and filtering content 
 of `citedata` blocks for matching collections.
@@ -204,7 +255,7 @@ function readtextpageblock(b::Block, curn::Cite2Urn, clabel::AbstractString; del
     TextOnPage(curn, clabel, datapairs)
 end
 
-
+=#
 
 
 """Number of annotations in `idx`.

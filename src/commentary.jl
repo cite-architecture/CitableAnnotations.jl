@@ -150,8 +150,6 @@ function fromcex(trait::CommentaryCex, cexsrc::AbstractString, ::Type{CitableCom
     end
     
 
-
-
     commentaries = []
     for blk in commblocks
         datapairs = []
