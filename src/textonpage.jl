@@ -131,7 +131,7 @@ $(SIGNATURES)
 function fromcex(trait::TextOnPageCex, cexsrc::AbstractString, ::Type{TextOnPage}; 
     delimiter = "|", configuration = nothing, strict = true)
     if strict
-        @warn("Parse CEX for TextOnPage strictly")
+        @warn("Parsing CEX for TextOnPage strictly")
         parsetextonpagecex(cexsrc, delimiter = delimiter)
     else
         (coll_urn, coll_label) = headerinfo(cexsrc, delimiter = delimiter)

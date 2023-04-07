@@ -116,28 +116,64 @@ end
 
 
 
-"""Parse a delimited-text string into a `CitableCommentary`.
+"""Parse a delimited-text string into a (possibly empty) list of `CitableCommentary`s.
 $(SIGNATURES)
-
-`cexsrc` should be a single `citerelationset` block.
 """
 function fromcex(trait::CommentaryCex, cexsrc::AbstractString, ::Type{CitableCommentary}; 
     delimiter = "|", configuration = nothing, strict = true)
-    (coll_urn, coll_label) = headerinfo(cexsrc, delimiter = delimiter)
 
-    datapairs = []
-    datalines = data(cexsrc, "citerelationset", delimiter = delimiter)
-    for ln in datalines
-        columns = split(ln, delimiter)
-        push!(datapairs, (CtsUrn(columns[1]), CtsUrn(columns[2]))) 
+    commentarysets = []
+    modelblocks = blocks(cexsrc, "datamodels")
+    for mb in modelblocks
+        for ln in mb.lines[2:end]
+            cols = split(ln, delimiter)
+            collurn =  Cite2Urn(cols[1])
+            modelurn = Cite2Urn(cols[2])
+            if modelurn == COMMENTARY_MODEL
+                push!(commentarysets,collurn)
+            else
+                @debug("$(modelurn) != $(COMMENTARY_MODEL)")
+            end
+        end
     end
-    CitableCommentary(coll_urn, coll_label, datapairs)
+
+    crblocks = blocks(cexsrc, "citerelationset")
+    commblocks = []
+    crurns = map(crblocks) do blk
+        split(blk.lines[1], delimiter)[2] |> Cite2Urn
+    end
+    for commseturn in commentarysets
+        blockindices = findall(u -> u == commseturn, crurns)
+        for idx in blockindices
+            push!(commblocks, crblocks[idx])
+        end
+    end
+    
+
+
+
+    commentaries = []
+    for blk in commblocks
+        datapairs = []
+        (coll_urn, coll_label) = headerinfo(blk, delimiter = delimiter)
+        for ln in blk.lines
+            columns = split(ln, delimiter)
+            try
+                push!(datapairs, (CtsUrn(columns[1]), CtsUrn(columns[2]))) 
+            catch 
+                @warn("Skipping line $(ln)")
+            end
+        end
+
+        push!(commentaries, CitableCommentary(coll_urn, coll_label, datapairs))
+    end
+    commentaries
 end
 
 
 
 
-"""Number of annotatoins in `ms`.
+"""Number of annotations in `c`.
 $(SIGNATURES)
 """
 function length(c::CitableCommentary)
@@ -146,35 +182,35 @@ end
 
 
 	
-"""A `Codex` is a collection of `MSPage`s.
+"""Commentaries index text passage to text passage.
 $(SIGNATURES)
 """
 function eltype(c::CitableCommentary)
     Tuple{CtsUrn, CtsUrn}
 end
 
-"""Initial state of iterator for a `Codex`.
+"""Initial state of iterator for a `CitableCommentary`.
 $(SIGNATURES)
 """
 function iterate(c::CitableCommentary)
     isempty(c.commentary) ? nothing : (c.commentary[1], 2)
 end
 
-"""Iterate a `Codex` with array index at `state`.
+"""Iterate a `CitableCommentary` with array index at `state`.
 $(SIGNATURES)
 """
 function iterate(c::CitableCommentary, state)
     state > length(c.commentary) ? nothing : (c.commentary[state], state + 1)
 end
 
-"""Filter the list of pages in a `Codex`.
+"""Filter the annotations in a `CitableCommentary`.
 $(SIGNATURES)
 """
 function filter(f, c::CitableCommentary)
      Iterators.filter(f, collect(c))
 end
 
-"""Reverse the order of pages in a `Codex`.
+"""Reverse the order of annotations in a `CitableCommentary`.
 $(SIGNATURES)
 I don't know, maybe you need to page through backwards
 for some reason.
