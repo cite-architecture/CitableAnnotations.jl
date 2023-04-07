@@ -1,6 +1,6 @@
 #!datamodels
 Collection|Model|Label|Description
-urn:cite2:hmt:iliadindex.v1:all|urn:cite2:hmt:datamodels.v1:textonpage|Index of *Iliad* lines to pages where they appear
+urn:cite2:hmt:iliadindex.v1:all|urn:cite2:cite:datamodels.v1:textonpage|Index of *Iliad* lines to pages where they appear
 
 
 #!citerelationset

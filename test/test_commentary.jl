@@ -21,7 +21,8 @@ end
 
 @testset "Test Julia collection functions on commentary" begin
     f = joinpath(pwd(), "data", "sample-commentary.cex") 
-    c = fromcex(f, CitableCommentary, FileReader)
+    clist = fromcex(f, CitableCommentary, FileReader)
+    c = clist[1]
     @test length(c) == 9
     @test eltype(c) == Tuple{CtsUrn, CtsUrn}
     @test typeof(collect(c))  <: Vector

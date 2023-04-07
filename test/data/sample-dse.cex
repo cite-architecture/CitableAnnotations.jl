@@ -1,3 +1,7 @@
+#!datamodels
+Collection|Model|Label|Description
+urn:cite2:hmt:hmtdse.v1:all|urn:cite2:cite:datamodels.v1:dse|Passage of text in a digital scholarly edition|Relations of text, manuscript page and documentary image for all edited texts
+
 #!citerelationset
 urn|urn:cite2:hmt:hmtdse.v1:
 label|Homer Multitext project indexing of digital scholarly editions

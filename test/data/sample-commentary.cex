@@ -1,3 +1,8 @@
+#!datamodels
+Collection|Model|Label|Description
+urn:cite2:hmt:commentary.v1:all|urn:cite2:cite:datamodels.v1:commentary|Relation of commentary to text passages commented on.
+
+
 #!citerelationset
 urn|urn:cite2:hmt:commentary.v1:all
 label|Index of scholia to *Iliad* passages they comment on
