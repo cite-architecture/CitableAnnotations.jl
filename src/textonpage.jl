@@ -155,7 +155,7 @@ function fromcex(trait::TextOnPageCex, cexsrc::AbstractString, ::Type{TextOnPage
     end
 
     crblocks = blocks(cexsrc, "citerelationset")
-    @info("Look for $(indexsets) in CR BLOCKS $(crblocks)")
+    #@info("Look for $(indexsets) in CR BLOCKS $(crblocks)")
     idxblocks = []
     crurns = map(crblocks) do blk
         split(blk.lines[1], delimiter)[2] |> Cite2Urn
