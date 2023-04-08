@@ -8,10 +8,15 @@ using CitableBase, CitableText, CitableAnnotations
 
 ## Loading a commentary from CEX
 
-A `CitableCommentary` can be serialized to and instantiated from a `citerelationset` block, like this example:
+A `CitableCommentary` can be serialized to and instantiated from CEX source that includes a `citerelationset` block and declares a data model for it.  Here is an example:
 
 ```@example comm
 cexdata = """
+#!datamodels
+Collection|Model|Label|Description
+urn:cite2:hmt:commentary.v1:all|urn:cite2:cite:datamodels.v1:commentary|Relation of commentary to text passages commented on.
+
+
 #!citerelationset
 urn|urn:cite2:hmt:commentary.v1:all
 label|Index of scholia to *Iliad* passages they comment on
@@ -29,10 +34,10 @@ urn:cts:greekLit:tlg5026.msAint.hmt:1.57|urn:cts:greekLit:tlg0012.tlg001.msA:1.4
 """
 ```
 
-Use the `fromcex` function (from `CitableBase`) to create a commentary.
+Use the `fromcex` function (from `CitableBase`) to create a Vector of `CitableCommentary` objects.  In this example, we already know our CEX only has one commentary, so we'll take the first element from the Vector.
 
 ```@example comm
-citcomm = fromcex(cexdata, CitableCommentary)
+citcomm = fromcex(cexdata, CitableCommentary)[1]
 ```
 
 
