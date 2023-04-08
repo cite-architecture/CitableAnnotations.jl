@@ -2,6 +2,7 @@
 
 The `CitableAnnotationSet` is an abstraction for a citable set of relations among pairs of URNs.  In each pair, one URN is said to *annotate* the other.
 
+
 Concrete subtypes of `CitableAnnotationSet` implement:
 
 - metadata functions 
