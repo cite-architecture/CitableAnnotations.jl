@@ -1,14 +1,13 @@
 
 #!datamodels
 Collection|Model|Label|Description
-urn:cite2:hmt:commentary.v1:all|urn:cite2:cite:datamodels.v1:commentary|Relation of commentary to text passages commented on.
+urn:cite2:hmt:commentary.v1:all|urn:cite2:cite:datamodels.v1:commentarymodel|Relation of commentary to text passages commented on.
 
 #!citerelationset
 urn|urn:cite2:hmt:commentary.v1:all
 label|Index of scholia to *Iliad* passages they comment on
+
 scholion|iliad
-
-
 urn:cts:greekLit:tlg5026.msAint.hmt:1.27|urn:cts:greekLit:tlg0012.tlg001.msA:1.8
 urn:cts:greekLit:tlg5026.msAint.hmt:1.28|urn:cts:greekLit:tlg0012.tlg001.msA:1.13-1.16
 urn:cts:greekLit:tlg5026.msAint.hmt:1.29|urn:cts:greekLit:tlg0012.tlg001.msA:1.13-1.14

@@ -14,7 +14,7 @@ A `CitableCommentary` can be serialized to and instantiated from CEX source that
 cexdata = """
 #!datamodels
 Collection|Model|Label|Description
-urn:cite2:hmt:commentary.v1:all|urn:cite2:cite:datamodels.v1:commentary|Relation of commentary to text passages commented on.
+urn:cite2:hmt:commentary.v1:all|urn:cite2:cite:datamodels.v1:commentarymodel|Relation of commentary to text passages commented on.
 
 
 #!citerelationset
