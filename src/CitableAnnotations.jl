@@ -35,10 +35,12 @@ export annotated, annotators
 
 export CitableCommentary
 export TextOnPage
+export NamedEntityIndex
 
 include("constants.jl")
 include("abstract.jl")
 include("commentary.jl")
 include("textonpage.jl")
+include("namedentities.jl")
 include("utils.jl")
 end # module
