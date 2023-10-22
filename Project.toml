@@ -1,7 +1,7 @@
 name = "CitableAnnotations"
 uuid = "63f90415-d3ea-41a7-8107-8cc186a9b888"
 authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
-version = "0.5.0"
+version = "0.5.1"
 
 [deps]
 CitableBase = "d6f014bd-995c-41bd-9893-703339864534"
@@ -18,5 +18,5 @@ CitableObject = "0.16"
 CitableText = "0.16"
 CiteEXchange = "0.10"
 DocStringExtensions = "0.9"
-Documenter = "0.27"
+Documenter = "0.27, 1"
 julia = "1"
