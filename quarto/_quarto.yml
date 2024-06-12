@@ -12,7 +12,7 @@ format:
 
 
 website:
-  title: "orthography"
+  title: "citableannotations"
   navbar:
     background: primary
     search: true
@@ -43,6 +43,7 @@ website:
     - title: "Tutorials"
       contents: 
         - tutorials/index.qmd
+        - tutorials/commentary.qmd
 
     - title: "Guides"
       contents:
@@ -51,6 +52,7 @@ website:
     - title: "Reference"
       contents: 
         - reference/index.qmd
+        - reference/apis.qmd
 
     - title: "Concepts"
       contents: 

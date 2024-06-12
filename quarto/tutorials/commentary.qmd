@@ -1,4 +1,5 @@
-# The CitableCommentary
+# Commentary
+
 
 A `CitableCommentary` records annotations by one text on another text. Each text is identified by a `CtsUrn`.  In general, therefore, when you use `CitableAnnotations` you'll  also want to include both the `CitableBase` and `CitableText` package, where the `Urn` abstraction and `CtsUrn` type are defined.
 
