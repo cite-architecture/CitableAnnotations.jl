@@ -2,17 +2,8 @@
 title: Reference
 ---
 
-Look it up here.
+
+- [API documentation](./apis.qmd)
 
 
 
-`annotatedtype`
-
-:::{.callout-note appearance="minimal"}
-```{julia}
-#| echo: false
-#| warning: false
-using CitableAnnotations
-@doc annotatedtype
-```
-:::
