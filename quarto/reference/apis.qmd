@@ -1,0 +1,80 @@
+# API Documentation
+
+
+## Type hierarchy
+
+
+`AbstractAnnotationSet`
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+using CitableAnnotations
+@doc AbstractAnnotationSet
+```
+:::
+
+
+`CitableCommentary`
+
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc CitableCommentary
+```
+:::
+
+
+## Metadata about annotation sets
+
+
+`annotatedtype`
+
+
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc annotatedtype
+```
+:::
+
+`annotatingtype` 
+
+
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc annotatingtype
+```
+:::
+
+`annotated`
+
+
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc annotated
+```
+:::
+
+`annotators`
+
+
+
+:::{.callout-note appearance="minimal"}
+```{julia}
+#| echo: false
+#| warning: false
+@doc annotators
+```
+:::

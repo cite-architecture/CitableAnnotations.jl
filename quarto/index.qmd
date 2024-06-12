@@ -1,0 +1,26 @@
+---
+title: "Citable annotations"
+---
+
+Work with related citable objects.
+
+ citable 
+The `CitableAnnotationSet` is an abstraction for a citable set of relations among pairs of URNs.  In each pair, one URN is said to *annotate* the other.
+
+
+Concrete subtypes of `CitableAnnotationSet` implement:
+
+- metadata functions 
+- the `CitableTrait` functions (from `CitableBase`)
+- the `CexTrait` functions  (from `CitableBase`)
+- dozens of Julia's iterator and collection functions (see a partial list in the [documentation for `CitableBase`](https://cite-architecture.github.io/CitableBase.jl/stable/collections2/))
+
+
+
+## Contents
+
+
+| | Learning the package | Using the package |
+| --- | --- | --- |
+| **Hands-on** |  Try a [tutorial](./tutorials/) to start using  the package  | Find [recipes](./guides/) for specific tasks |
+| **Cognition** | Learn [concepts](./concepts/)   | See [reference information](./reference/) (including API documentation for all exported functions) |

@@ -3,3 +3,5 @@ build/
 *~
 .vscode/
 scratch/
+_site/
+_freeze/
