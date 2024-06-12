@@ -2,4 +2,5 @@
 title: Tutorials
 ---
 
-Learn `CitableAnnotations.jl`.
+
+- a citable [commentary](./commentary.qmd)

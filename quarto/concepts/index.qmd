@@ -3,4 +3,14 @@ title: Concepts
 ---
 
 
-Grok citable annotations.
+ 
+The `CitableAnnotationSet` is an abstraction for a citable set of relations among pairs of URNs.  In each pair, one URN is said to *annotate* the other.
+
+
+Concrete subtypes of `CitableAnnotationSet` implement:
+
+- metadata functions 
+- the `CitableTrait` functions (from `CitableBase`)
+- the `CexTrait` functions  (from `CitableBase`)
+- dozens of Julia's iterator and collection functions (see a partial list in the [documentation for `CitableBase`](https://cite-architecture.github.io/CitableBase.jl/stable/collections2/))
+
