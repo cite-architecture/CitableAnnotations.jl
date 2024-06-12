@@ -29,7 +29,7 @@ website:
         file: reference/index.qmd  
     right:   
       - icon: github
-        href: https://github.com/hcmid/Orthography.jl
+        href: https://github.com/cite-architecture/CitableAnnotations.jl
         aria-label: GitHub
       - icon: person-circle
         menu:
